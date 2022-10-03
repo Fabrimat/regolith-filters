@@ -44,11 +44,11 @@ function exportWorld(exclude, template = false) {
     const bp = JSON.parse(fs.readFileSync("BP/manifest.json"))
     const rp = JSON.parse(fs.readFileSync("RP/manifest.json"))
 
-    bp.dependencies = [ { "uuid": rp.header.uuid, "version": rp.header.version } ]
-    rp.dependencies = [ { "uuid": bp.header.uuid, "version": bp.header.version } ]
+    const header_rp = [ { "uuid": rp.header.uuid, "version": rp.header.version } ]
+    const header_bp = [ { "uuid": bp.header.uuid, "version": bp.header.version } ]
 
-    fs.writeFileSync("world_resource_packs.json", JSON.stringify(rp))
-    fs.writeFileSync("world_behavior_packs.json", JSON.stringify(bp))
+    fs.writeFileSync("world_resource_packs.json", JSON.stringify(header_rp))
+    fs.writeFileSync("world_behavior_packs.json", JSON.stringify(header_bp))
 
     const outputWorld = fs.createWriteStream(`../../build/${name}.` + (template ? '.mctemplate' : '.mcworld'), 'utf-8');
     const worldArchive = archiver('zip', { zlib: { level: 9 }});
