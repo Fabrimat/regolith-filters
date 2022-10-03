@@ -37,12 +37,6 @@ fs.writeFileSync(
   })
 );
 
-exec(`npm i typescript @types/mojang-minecraft @types/mojang-gametest"`, (err, stdout, stderr) => {
-  if (stdout) console.error(stdout);
-  if (stderr) console.error(stderr);
-  if (err && !stderr && !stderr) console.error(err);
-});
-
 exec(`npx tsc -p "tsconfig.json"`, (err, stdout, stderr) => {
   if (stdout) console.error(stdout);
   if (stderr) console.error(stderr);
