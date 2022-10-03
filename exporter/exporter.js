@@ -1,14 +1,15 @@
 const archiver = require('archiver');
 const fs = require('fs');
-const { name } = JSON.parse(fs.readFileSync('../../config.json', 'utf-8'));
 
 let settings = process.argv[2];
 let exclude = [];
 let target;
+let name = 'export';
 try {
 	settings = JSON.parse(settings);
     target = settings.target;
 	exclude = settings.exclude;
+    name = settings.name;
 } catch {}
 
 switch (target) {
@@ -30,7 +31,7 @@ switch (target) {
 }
 
 function exportAddon(exclude) {
-    const outputAddon = fs.createWriteStream(`../../${name}.mcaddon`, 'utf-8');
+    const outputAddon = fs.createWriteStream(`${name}.mcaddon`, 'utf-8');
         const addonArchive = archiver('zip', { zlib: { level: 9 }});
         
         ['bp', 'rp', 'wt'].filter(x => !exclude.some(y => y.toLowerCase() == x)).forEach(x => { addonArchive.directory(x.toUpperCase(), x.toLowerCase()); });
@@ -41,7 +42,7 @@ function exportAddon(exclude) {
 }
 
 function exportWorld(exclude, template = false) {
-    const outputWorld = fs.createWriteStream(`../../${name}.` + (template ? '.mctemplate' : '.mcworld'), 'utf-8');
+    const outputWorld = fs.createWriteStream(`${name}.` + (template ? '.mctemplate' : '.mcworld'), 'utf-8');
     const worldArchive = archiver('zip', { zlib: { level: 9 }});
     
     ['bp', 'rp'].filter(x => !exclude.some(y => y.toLowerCase() == x)).forEach(x => { worldArchive.directory(x.toUpperCase(), x.toLowerCase()); });
