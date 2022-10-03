@@ -54,11 +54,13 @@ function exportWorld(exclude, template = false) {
     const worldArchive = archiver('zip', { zlib: { level: 9 }});
     
     ['bp', 'rp'].filter(x => !exclude.some(y => y.toLowerCase() == x)).forEach(x => { worldArchive.directory(x.toUpperCase(), x.toLowerCase()); });
+    worldArchive.directory('BP/', 'behavior_packs/bp');
+    worldArchive.directory('RP/', 'resource_packs/rp');
 
     worldArchive.directory('../../packs/WT/db/', 'db/');
-    worldArchive.file('level.dat', {name: 'level.dat'});
-    worldArchive.file('levelname.txt', {name: 'levelname.txt'});
-    worldArchive.file('world_icon.jpeg', {name: 'world_icon.jpeg'});
+    worldArchive.file('../../packs/WT/level.dat', {name: 'level.dat'});
+    worldArchive.file('../../packs/WT/levelname.txt', {name: 'levelname.txt'});
+    worldArchive.file('../../packs/WT/world_icon.jpeg', {name: 'world_icon.jpeg'});
     worldArchive.file('world_resource_packs.json', {name: 'world_resource_packs.json'});
     worldArchive.file('world_behavior_packs.json', {name: 'world_behavior_packs.json'});
 
