@@ -53,7 +53,6 @@ function exportWorld(exclude, template = false) {
     const outputWorld = fs.createWriteStream(`../../build/${name}.` + (template ? '.mctemplate' : '.mcworld'), 'utf-8');
     const worldArchive = archiver('zip', { zlib: { level: 9 }});
     
-    ['bp', 'rp'].filter(x => !exclude.some(y => y.toLowerCase() == x)).forEach(x => { worldArchive.directory(x.toUpperCase(), x.toLowerCase()); });
     worldArchive.directory('BP/', 'behavior_packs/bp');
     worldArchive.directory('RP/', 'resource_packs/rp');
 
@@ -71,8 +70,4 @@ function exportWorld(exclude, template = false) {
     worldArchive.on('error', err => console.error(err));
     worldArchive.pipe(outputWorld);
     worldArchive.finalize();
-}
-
-function exportTemplate() {
-    
 }
