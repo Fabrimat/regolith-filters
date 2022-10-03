@@ -70,3 +70,7 @@ function exportWorld(exclude, template = false) {
     worldArchive.pipe(outputWorld);
     worldArchive.finalize();
 }
+
+function exportTemplate() {
+    
+}
