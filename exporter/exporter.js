@@ -31,33 +31,42 @@ switch (target) {
 }
 
 function exportAddon(exclude) {
-    const outputAddon = fs.createWriteStream(`${name}.mcaddon`, 'utf-8');
-        const addonArchive = archiver('zip', { zlib: { level: 9 }});
-        
-        ['bp', 'rp', 'wt'].filter(x => !exclude.some(y => y.toLowerCase() == x)).forEach(x => { addonArchive.directory(x.toUpperCase(), x.toLowerCase()); });
-        addonArchive.on('error', err => console.error(err));
-        addonArchive.pipe(outputAddon);
-        addonArchive.finalize();
-        outputAddon.close();
+    const outputAddon = fs.createWriteStream(`../../build/${name}.mcaddon`, 'utf-8');
+    const archiveAddon = archiver('zip', { zlib: { level: 9 }});
+    
+    ['bp', 'rp'].filter(x => !exclude.some(y => y.toLowerCase() == x)).forEach(x => { archiveAddon.directory(x.toUpperCase(), x.toLowerCase()); });
+    archiveAddon.on('error', err => console.error(err));
+    archiveAddon.pipe(outputAddon);
+    archiveAddon.finalize();
 }
 
 function exportWorld(exclude, template = false) {
-    const outputWorld = fs.createWriteStream(`${name}.` + (template ? '.mctemplate' : '.mcworld'), 'utf-8');
+    const bp = JSON.parse(fs.readFileSync("BP/manifest.json"))
+    const rp = JSON.parse(fs.readFileSync("RP/manifest.json"))
+
+    bp.dependencies = [ { "uuid": rp.header.uuid, "version": rp.header.version } ]
+    rp.dependencies = [ { "uuid": bp.header.uuid, "version": bp.header.version } ]
+
+    fs.writeFileSync("world_resource_packs.json", JSON.stringify(rp))
+    fs.writeFileSync("world_behavior_packs.json", JSON.stringify(bp))
+
+    const outputWorld = fs.createWriteStream(`../../build/${name}.` + (template ? '.mctemplate' : '.mcworld'), 'utf-8');
     const worldArchive = archiver('zip', { zlib: { level: 9 }});
     
     ['bp', 'rp'].filter(x => !exclude.some(y => y.toLowerCase() == x)).forEach(x => { worldArchive.directory(x.toUpperCase(), x.toLowerCase()); });
 
-    worldArchive.directory('WT/db/', 'db/');
+    worldArchive.directory('../../packs/WT/db/', 'db/');
     worldArchive.file('level.dat', {name: 'level.dat'});
     worldArchive.file('levelname.txt', {name: 'levelname.txt'});
     worldArchive.file('world_icon.jpeg', {name: 'world_icon.jpeg'});
+    worldArchive.file('world_resource_packs.json', {name: 'world_resource_packs.json'});
+    worldArchive.file('world_behavior_packs.json', {name: 'world_behavior_packs.json'});
 
     if (template) {
-        worldArchive.directory('WT/texts/', 'texts/');
-        worldArchive.file('manifest.json', {name: 'manifest.json'});
+        worldArchive.directory('../../packs/WT/texts/', 'texts/');
+        worldArchive.file('../../packs/WT/manifest.json', {name: 'manifest.json'});
     }
     worldArchive.on('error', err => console.error(err));
     worldArchive.pipe(outputWorld);
     worldArchive.finalize();
-    outputWorld.close();
 }
