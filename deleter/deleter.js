@@ -57,4 +57,4 @@ function deleteFiles(basePath, filePatterns) {
     }
 }
 
-deleteFiles("../../build/" + filePath, files);
+deleteFiles("./" + filePath, files);
