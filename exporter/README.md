@@ -1,5 +1,5 @@
 # export
-Version **0.0.1**
+Version **0.0.2**
 
 This filter exports the behavior pack and resource pack into a ".mcaddon", ".mcworld" or ".mctemplate" file, ready for distribution.
 
