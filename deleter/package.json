@@ -1,0 +1,12 @@
+{
+    "name": "deleter",
+    "version": "0.0.1",
+    "description": "Delete the unwanted files from your addon!",
+    "main": "deleter.js",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Fabrimat/regolith-filters.git"
+    },
+    "author": "Fabrimat",
+    "license": "MIT"
+  }

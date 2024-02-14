@@ -1,0 +1,10 @@
+{
+	"filters": [
+		{
+			"runWith": "nodejs",
+			"script": "./deleter.js",
+			"name": "Delete files",
+			"description": "Delete the unwanted files from your addon!"
+		}
+	]
+}
