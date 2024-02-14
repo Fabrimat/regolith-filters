@@ -14,6 +14,12 @@ function isDirectory(filePath) {
     return fs.lstatSync(filePath).isDirectory();
 }
 
+function wildcardMatch(text, pattern) {
+    const regexPattern =
+        new RegExp('^' + pattern.replace(/\?/g, '.').replace(/\*/g, '.*') + '$');
+    return regexPattern.test(text);
+}
+
 function glob(pattern, directory) {
     const matches = [];
     const files = fs.readdirSync(directory);
@@ -21,11 +27,10 @@ function glob(pattern, directory) {
     for (const file of files) {
         const fullPath = path.join(directory, file);
         const stats = fs.lstatSync(fullPath);
-
         if (stats.isDirectory()) {
             const nestedMatches = glob(pattern, fullPath);
             matches.push(...nestedMatches);
-        } else if (path.match(pattern, file)) {
+        } else if (wildcardMatch(file, pattern)) {
             matches.push(fullPath);
         }
     }
@@ -46,11 +51,10 @@ function deleteFiles(basePath, filePatterns) {
         const filePaths = glob(pattern, basePath);
 
         for (const filePath of filePaths) {
-            //deleteFileOrDirectory(filePath);
+            deleteFileOrDirectory(filePath);
             console.log(`Deleted file: ${filePath}`);
         }
     }
 }
 
-// Delete files in the current directory and its subdirectories
-deleteFiles(filePath, files);
+deleteFiles("../../build/" + filePath, files);

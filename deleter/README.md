@@ -1,21 +1,24 @@
 # export
 Version **0.0.1**
 
-This filter exports the behavior pack and resource pack into a ".mcaddon", ".mcworld" or ".mctemplate" file, ready for distribution.
+This filter delete all unwanted files from your addon.
 
 ## Usage
 This filter requires that you have [nodejs](https://nodejs.org/en/) installed.
 
-Install this filter by running (`regolith install github.com/Fabrimat/regolith-filters/exporter`). Apply the filters similar to the example:
+Install this filter by running (`regolith install github.com/Fabrimat/regolith-filters/deleter`). Apply the filters similar to the example:
 
 ```json
 {
 	"filters": [
 		{
-			"filter": "export",
+			"filter": "deleter",
 			"settings": {
-                "target": "addon",
-				"exclude": [ "WT" ]
+                "path": ".",
+				"files": [
+                  "*.png",
+                  "test.json"
+                ]
 			}
 		}
 	]
@@ -25,12 +28,6 @@ Install this filter by running (`regolith install github.com/Fabrimat/regolith-f
 ### Settings
 
 Name | Default | Description
----- | ------- | -----------
-`target` | `''` | Select target archive.
-`exclude` | `[]` | Exclude paths from being exported.
-
-#### exclude
-Allowed values: `BP`, `RP`, `WT`
-
-#### target
-Allowed values: `addon`, `world`, `template`
+---- |---------| -----------
+`path` | `'.'`   | Relative path.
+`files` | `[]`    | Files to delete, wildcard supported.
