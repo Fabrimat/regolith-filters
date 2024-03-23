@@ -1,0 +1,14 @@
+{
+    "name": "lang_magic",
+    "version": "0.0.1",
+    "description": "This file will create lang files from your en_US.",
+    "main": "lang_magic.js",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Fabrimat/regolith-filters.git"
+    },
+    "author": "Fabrimat",
+    "license": "MIT",
+    "dependencies": {
+    }
+  }

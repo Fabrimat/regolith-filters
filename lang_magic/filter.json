@@ -1,0 +1,10 @@
+{
+	"filters": [
+		{
+			"runWith": "nodejs",
+			"script": "./lang_magic.js",
+			"name": "Lang Magic",
+			"description": "This file will create lang files from your en_US."
+		}
+	]
+}
